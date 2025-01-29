@@ -44,7 +44,7 @@ export const authenticateUser = (res: any) => {
 
 export const IsAuthenticated = () => {
   if (
-    sessionStorage.getItem("userAcToken") ||
+    (typeof window !== "undefined" && sessionStorage.getItem("userAcToken")) ||
     localStorage.getItem("userAcToken")
   ) {
     try {
@@ -62,7 +62,7 @@ export const IsAuthenticated = () => {
 
 export const getClientData = () => {
   if (
-    sessionStorage.getItem("userAcToken") ||
+    (typeof window !== "undefined" && sessionStorage.getItem("userAcToken")) ||
     localStorage.getItem("userAcToken")
   ) {
     try {

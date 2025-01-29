@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Drawer,
   DrawerContent,
@@ -17,13 +17,17 @@ import { useAppContext } from "@/app/context/StoreContext";
 import { IsAuthenticated } from "@/app/services/userServices";
 
 export default function Header() {
-  const auth = IsAuthenticated();
+  const [auth, setAuth] = React.useState<boolean>(false);
   const { appState } = useAppContext();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [placement, setPlacement] = React.useState<
     "left" | "top" | "right" | "bottom"
   >("left");
 
+  useEffect(() => {
+    const auth = IsAuthenticated();
+    setAuth(auth);
+  }, []);
   const handleOpen = (placement: "left" | "top" | "right" | "bottom") => {
     setPlacement(placement);
     onOpen();

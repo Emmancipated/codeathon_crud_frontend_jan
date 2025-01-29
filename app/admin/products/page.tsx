@@ -4,16 +4,13 @@ import React, { useEffect, useState } from "react";
 import bg from "@/public/bg.png";
 import {
   Button,
-  Card,
   cn,
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   Form,
   Input,
-  Skeleton,
   Spinner,
   Textarea,
   useDisclosure,
@@ -27,7 +24,7 @@ import {
   updateProductApi,
 } from "@/app/services/productServices";
 import PlaceListItem from "@/app/components/places/place-list-item";
-import places from "@/app/constants/places";
+
 import { generateRandomNumber } from "@/app/utils/utilities";
 import { motion, AnimatePresence } from "framer-motion";
 import { getClientData } from "@/app/services/userServices";
@@ -36,7 +33,6 @@ import { useRouter } from "next/navigation";
 function Products() {
   const [errors, setErrors] = React.useState({});
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const notificationDrawer = useDisclosure();
   const [placement, setPlacement] = React.useState<
     "left" | "top" | "right" | "bottom"
   >("left");
@@ -45,6 +41,7 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<any[]>([]);
   const [response, setResponse] = useState<string>("");
+  const [token, setToken] = useState<string>("");
   const [editData, setEditData] = useState({
     name: "",
     image: "",
@@ -53,7 +50,6 @@ function Products() {
     quantity: "",
     id: "",
   });
-  const token = getClientData();
 
   useEffect(() => {
     if (!isOpen) {
@@ -67,6 +63,8 @@ function Products() {
         id: "",
       });
     }
+    const token = getClientData();
+    setToken(token);
   }, [isOpen]);
 
   const getProducts = async () => {
