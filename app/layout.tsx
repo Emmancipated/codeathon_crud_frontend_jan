@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Smooch_Sans,
+  Quicksand,
+  Roboto,
+} from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
+import { AppProviderComponent } from "./context/StoreContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,6 +18,20 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+const SmoochSans = Smooch_Sans({
+  variable: "--font-smooch-sans",
+  subsets: ["latin"],
+  weight: "700",
+});
+const quickSand = Quicksand({
+  variable: "--font-quick-sand",
+  subsets: ["latin"],
+});
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: "500",
 });
 
 export const metadata: Metadata = {
@@ -23,11 +45,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${SmoochSans.variable} ${quickSand.variable} ${roboto.variable} antialiased text-black`}
       >
-        {children}
+        <AppProviderComponent>
+          <Providers>{children}</Providers>
+        </AppProviderComponent>
       </body>
     </html>
   );

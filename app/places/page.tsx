@@ -1,0 +1,18 @@
+import { cn } from "@heroui/react";
+import places from "../constants/places";
+import PlaceListItem from "../components/places/place-list-item";
+
+export default function Component({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "my-auto grid max-w-7xl grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+        className
+      )}
+    >
+      {/* {places.map((place) => ( */}
+      <PlaceListItem key={places[0].id} {...places[0]} />
+      {/* ))} */}
+    </div>
+  );
+}
