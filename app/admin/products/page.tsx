@@ -41,7 +41,6 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<any[]>([]);
   const [response, setResponse] = useState<string>("");
-  const [token, setToken] = useState<string>("");
   const [editData, setEditData] = useState({
     name: "",
     image: "",
@@ -63,15 +62,14 @@ function Products() {
         id: "",
       });
     }
-    const token = getClientData();
-    setToken(token);
   }, [isOpen]);
 
   const getProducts = async () => {
     setLoading(true);
 
     try {
-      const getProducts = await getAdminProductsApi(token);
+      const utoken = getClientData();
+      const getProducts = await getAdminProductsApi(utoken);
       if (getProducts?.data?.success) {
         setProducts(getProducts.data.data);
       } else {

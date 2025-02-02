@@ -5,6 +5,7 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
 import { IsAuthenticated } from "@/app/services/userServices";
+import { div } from "framer-motion/client";
 
 export type PlaceListItemColor = {
   name: string;
@@ -148,7 +149,11 @@ const PlaceListItem = React.forwardRef<HTMLDivElement, PlaceListItemProps>(
                 ) : null}
               </div>
               {description ? (
-                <p className="text-small text-default-500">{description}</p>
+                <div className="description-container">
+                  <p className="text-small text-default-500 description">
+                    {description}
+                  </p>
+                </div>
               ) : null}
               <p className="text-xl  font-medium text-default-500 font-[family-name:var(--font-smooch-sans)]">
                 ${price}
