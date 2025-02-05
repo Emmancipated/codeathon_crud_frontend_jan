@@ -1,12 +1,13 @@
 "use client";
 import { Button } from "@heroui/button";
-import { Form, Input, Spinner } from "@heroui/react";
+import { cn, Form, Input, Spinner } from "@heroui/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import AlertComponent from "@/app/components/places/AlertComponent";
-import { loginUserApi } from "@/app/services/userServices";
-import { useRouter } from "next/navigation";
+import { authenticateUser, loginUserApi } from "@/app/services/userServices";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Icon } from "@iconify/react";
 
 export default function Login() {
   const [errors, setErrors] = React.useState({});
@@ -17,10 +18,20 @@ export default function Login() {
     responseMessage: "",
   });
   const navigate = useRouter();
+  const param = useSearchParams();
+  const token = param.get("token");
+  const tokenFaceBook = param.get("tokenFacebook");
 
   const toggleNotification = () => {
     setIsOpenRes(!isOpenRes);
   };
+
+  useEffect(() => {
+    // if (!token || !tokenFaceBook) return;
+    if (token) authenticateUser(token);
+    if (tokenFaceBook) authenticateUser(tokenFaceBook);
+    if (token || tokenFaceBook) navigate.push("/");
+  }, [token]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,6 +112,54 @@ export default function Login() {
             disabled={loading}
           >
             {loading ? <Spinner /> : "Submit"}
+          </Button>
+
+          <Button
+            type="button"
+            variant="flat"
+            className="w-full bg-[#2A254B] text-white my-2"
+            disabled={loading}
+            onPress={() => {
+              window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/google`;
+            }}
+          >
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                {" "}
+                <Icon
+                  className={cn("text-default-900/50 text-white")}
+                  icon="mynaui:brand-google"
+                  width={24}
+                />
+                Login with Google
+              </>
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="flat"
+            className="w-full bg-[#2A254B] text-white my-2"
+            disabled={loading}
+            onPress={() => {
+              window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/facebook`;
+            }}
+          >
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                {" "}
+                <Icon
+                  className={cn("text-default-900/50 text-white")}
+                  icon="mynaui:brand-facebook"
+                  width={24}
+                />
+                Login with Facebook
+              </>
+            )}
           </Button>
         </Form>
 
